@@ -1,0 +1,68 @@
+@import "tailwindcss";
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  font-family: "Inter", system-ui, sans-serif;
+  overscroll-behavior: none;
+}
+
+/* slim custom range input used for the seek bar */
+input[type="range"].seek {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.15);
+  outline: none;
+}
+input[type="range"].seek::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: currentColor;
+  cursor: pointer;
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.08);
+}
+input[type="range"].seek::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: currentColor;
+  border: none;
+  cursor: pointer;
+}
+
+/* 1. Remove the outer layout borders, padding, and focus outlines */
+input[type="color"] {
+  -webkit-appearance: none; /* Removes default OS styling */
+  border: none;
+  outline: none;
+  padding: 0;
+  width: 20%;  /* Set your preferred dimensions */
+  height: 40px; 
+  border-radius: 8px; /* Optional: adds rounded corners */
+  cursor: pointer;
+}
+
+input[type="color"]:focus,
+input[type="color"]:focus-visible {
+outline: 2px solid #7c5cfc; /* Clean blue ring only for keyboard users */
+  outline-offset: 2px;
+}
+
+/* 2. Remove the internal borders around the actual color swatch */
+input[type="color"]::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+input[type="color"]::-webkit-color-swatch {
+  border: none; /* Fixes Chrome, Safari, and Edge */
+}
+
+input[type="color"]::-moz-color-swatch {
+  border: none; /* Fixes Firefox */
+}
