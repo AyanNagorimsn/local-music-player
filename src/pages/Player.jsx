@@ -114,7 +114,7 @@ export default function Player() {
         onEnded={handleNext}
       />
 
-      <div className="w-full max-w-sm bg-white rounded-[2rem] shadow-xl p-5 overflow-hidden">
+      <div className="w-full max-w-sm bg-white rounded-4xl shadow-xl p-5 overflow-hidden">
         <motion.div
           key={song.id}
           custom={direction}
