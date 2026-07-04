@@ -99,7 +99,7 @@ export default function Player() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 relative">
+    <div className="h-dvh flex items-center justify-center p-4 relative overflow-hidden">
       <AnimatedBackground
         color={song?.bgColor || "#eee6f7"}
         isPlaying={isPlaying}

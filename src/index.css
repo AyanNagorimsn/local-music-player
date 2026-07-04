@@ -73,3 +73,10 @@ input[type="color"]::-moz-color-swatch {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+html,
+body,
+#root {
+  height: 100%;
+  overflow: hidden;
+}

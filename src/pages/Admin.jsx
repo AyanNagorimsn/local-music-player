@@ -11,7 +11,14 @@ import {
   writeBatch,
 } from "firebase/firestore";
 import { Reorder } from "framer-motion";
-import { FiUpload, FiCheckCircle, FiMenu, FiEdit2, FiTrash2, FiArrowLeft } from "react-icons/fi";
+import {
+  FiUpload,
+  FiCheckCircle,
+  FiMenu,
+  FiEdit2,
+  FiTrash2,
+  FiArrowLeft,
+} from "react-icons/fi";
 import { db } from "../firebase.js";
 import { uploadToCloudinary } from "../uploadToCloudinary.js";
 import PinGate from "../components/PinGate.jsx";
@@ -33,12 +40,16 @@ function getAudioDuration(file) {
 function formatDuration(seconds) {
   if (!seconds || isNaN(seconds)) return "--:--";
   const m = Math.floor(seconds / 60);
-  const s = Math.floor(seconds % 60).toString().padStart(2, "0");
+  const s = Math.floor(seconds % 60)
+    .toString()
+    .padStart(2, "0");
   return `${m}:${s}`;
 }
 
 export default function Admin() {
-  const [unlocked, setUnlocked] = useState(sessionStorage.getItem("admin_unlocked") === "true");
+  const [unlocked, setUnlocked] = useState(
+    sessionStorage.getItem("admin_unlocked") === "true",
+  );
   const [songs, setSongs] = useState([]);
   const [form, setForm] = useState(emptyForm);
   const [coverFile, setCoverFile] = useState(null);
@@ -110,8 +121,14 @@ export default function Admin() {
           setUploading(false);
           return;
         }
-        const maxOrder = songs.reduce((max, s) => Math.max(max, s.order ?? 0), 0);
-        await addDoc(collection(db, "songs"), { ...payload, order: maxOrder + 1 });
+        const maxOrder = songs.reduce(
+          (max, s) => Math.max(max, s.order ?? 0),
+          0,
+        );
+        await addDoc(collection(db, "songs"), {
+          ...payload,
+          order: maxOrder + 1,
+        });
       }
       resetForm();
     } catch (err) {
@@ -155,22 +172,29 @@ export default function Admin() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
+    <div className="h-dvh overflow-hidden bg-gray-100 p-6">
       <div className="max-w-2xl mx-auto">
         <div className="flex items-center gap-3 mb-6">
-          <a  
+          <a
             href="/"
             className="flex items-center justify-center w-9 h-9 rounded-full shrink-0 transition"
             style={{ backgroundColor: `${ACCENT}1A`, color: ACCENT }}
           >
             <FiArrowLeft size={18} />
           </a>
-          <h1 className="text-2xl font-bold text-gray-900">Manage Your Songs</h1>
+          <h1 className="text-2xl font-bold text-gray-900">
+            Manage Your Songs
+          </h1>
         </div>
-        
+
         {/* Form */}
-        <form onSubmit={handleSubmit} className="bg-white rounded-2xl shadow p-6 mb-8 space-y-5">
-          <h2 className="font-semibold text-gray-800">{editingId ? "Edit song" : "Add new song"}</h2>
+        <form
+          onSubmit={handleSubmit}
+          className="bg-white rounded-2xl shadow p-6 mb-8 space-y-5"
+        >
+          <h2 className="font-semibold text-gray-800">
+            {editingId ? "Edit song" : "Add new song"}
+          </h2>
 
           <div>
             <label className="block text-sm text-gray-600 mb-1">Title</label>
@@ -192,19 +216,23 @@ export default function Admin() {
           </div>
 
           <div>
-            <label className="block text-sm text-gray-600 mb-1">Background color</label>
-              <input
-                type="color"
-                value={form.bgColor}
-                onChange={(e) => setForm({ ...form, bgColor: e.target.value })}
-                className="w-full h-full cursor-pointer border-0 outline-none"
-                style={{ padding: 0 }}
-              />
+            <label className="block text-sm text-gray-600 mb-1">
+              Background color
+            </label>
+            <input
+              type="color"
+              value={form.bgColor}
+              onChange={(e) => setForm({ ...form, bgColor: e.target.value })}
+              className="w-full h-full cursor-pointer border-0 outline-none"
+              style={{ padding: 0 }}
+            />
           </div>
 
           {/* Cover upload */}
           <div>
-            <label className="block text-sm text-gray-600 mb-1">Cover image</label>
+            <label className="block text-sm text-gray-600 mb-1">
+              Cover image
+            </label>
             <div className="flex items-center gap-4">
               <button
                 type="button"
@@ -231,13 +259,17 @@ export default function Admin() {
               )}
             </div>
             {editingId && !coverFile && (
-              <p className="text-xs text-gray-400 mt-1">Leave empty to keep current cover</p>
+              <p className="text-xs text-gray-400 mt-1">
+                Leave empty to keep current cover
+              </p>
             )}
           </div>
 
           {/* Audio upload */}
           <div>
-            <label className="block text-sm text-gray-600 mb-1">Audio file</label>
+            <label className="block text-sm text-gray-600 mb-1">
+              Audio file
+            </label>
             <div className="flex items-center gap-3">
               <button
                 type="button"
@@ -263,7 +295,9 @@ export default function Admin() {
               )}
             </div>
             {editingId && !audioFile && (
-              <p className="text-xs text-gray-400 mt-1">Leave empty to keep current audio</p>
+              <p className="text-xs text-gray-400 mt-1">
+                Leave empty to keep current audio
+              </p>
             )}
           </div>
 
@@ -273,10 +307,18 @@ export default function Admin() {
               disabled={uploading}
               className="bg-gray-900 text-white px-4 py-2 rounded-lg font-medium disabled:opacity-50"
             >
-              {uploading ? "Uploading..." : editingId ? "Save changes" : "Add song"}
+              {uploading
+                ? "Uploading..."
+                : editingId
+                  ? "Save changes"
+                  : "Add song"}
             </button>
             {editingId && (
-              <button type="button" onClick={resetForm} className="px-4 py-2 rounded-lg border border-gray-300">
+              <button
+                type="button"
+                onClick={resetForm}
+                className="px-4 py-2 rounded-lg border border-gray-300"
+              >
                 Cancel
               </button>
             )}
@@ -284,7 +326,9 @@ export default function Admin() {
         </form>
 
         {/* Reorderable list */}
-        <h2 className="text-sm font-semibold text-gray-500 mb-2 px-1">Current Songs</h2>
+        <h2 className="text-sm font-semibold text-gray-500 mb-2 px-1">
+          Current Songs
+        </h2>
         <Reorder.Group
           axis="y"
           values={songs}
@@ -299,11 +343,19 @@ export default function Admin() {
               className="flex items-center gap-3 p-4 border-b border-gray-50 last:border-b-0 bg-white cursor-grab active:cursor-grabbing"
             >
               <FiMenu className="text-gray-300 shrink-0" size={18} />
-              <img src={song.coverUrl} alt={song.title} className="w-20 h-20 rounded-2xl object-cover shrink-0" />
+              <img
+                src={song.coverUrl}
+                alt={song.title}
+                className="w-20 h-20 rounded-2xl object-cover shrink-0"
+              />
               <div className="flex-1 min-w-0">
-                <p className="font-medium text-gray-900 truncate">{song.title}</p>
+                <p className="font-medium text-gray-900 truncate">
+                  {song.title}
+                </p>
                 <p className="text-xs text-gray-500 truncate">{song.artist}</p>
-                <p className="text-xs text-gray-400 mt-0.5">{formatDuration(song.duration)}</p>
+                <p className="text-xs text-gray-400 mt-0.5">
+                  {formatDuration(song.duration)}
+                </p>
               </div>
               <div
                 className="w-8 h-8 rounded-full border border-gray-200 shrink-0"
@@ -325,7 +377,9 @@ export default function Admin() {
               </button>
             </Reorder.Item>
           ))}
-          {!songs.length && <p className="p-4 text-sm text-gray-400">No songs yet.</p>}
+          {!songs.length && (
+            <p className="p-4 text-sm text-gray-400">No songs yet.</p>
+          )}
         </Reorder.Group>
       </div>
     </div>

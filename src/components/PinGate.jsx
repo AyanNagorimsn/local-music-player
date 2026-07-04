@@ -34,7 +34,7 @@ export default function PinGate({ onUnlock }) {
   const keys = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-white px-8">
+    <div className="h-dvh overflow-hidden flex flex-col items-center justify-center bg-white px-8">
       <div className="w-16 h-16 rounded-full bg-[#7C5CFC] flex items-center justify-center mb-6 shadow-lg shadow-[#7C5CFC]/30">
         <RiLockPasswordFill size={28} className="text-white" />
       </div>
