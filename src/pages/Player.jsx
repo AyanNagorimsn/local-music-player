@@ -166,6 +166,7 @@ export default function Player() {
             currentIndex={index}
             onSelect={(i) => goTo(i, i > index ? 1 : -1)}
             accentColor={ACCENT}
+            isPlaying={isPlaying}
           />
         </div>
 

@@ -2,19 +2,40 @@ import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 
 const VISIBLE = 4;
-const GAP = 12; // px, matches gap-3
+const GAP = 12;
 
+function EqualizerBars({ color }) {
+  const bars = [0, 1, 2, 3, 4, 5, 6];
+  return (
+    <div className="absolute inset-0 flex items-end justify-center gap-0.5 px-2 pb-1 bg-black/10 backdrop-blur-[0.2px]">
+      {bars.map((i) => (
+        <motion.div
+          key={i}
+          className="flex-1 rounded-full"
+          style={{ backgroundColor: color, maxWidth: 3 }}
+          animate={{ height: ["20%", "45%", "25%", "40%", "20%"] }}
+          transition={{
+            duration: 0.9 + i * 0.1,
+            repeat: Infinity,
+            ease: "easeInOut",
+            delay: i * 0.08,
+          }}
+        />
+      ))}
+    </div>
+  );
+}
 export default function ThumbnailStrip({
   songs,
   currentIndex,
   onSelect,
   accentColor,
+  isPlaying,
 }) {
   const containerRef = useRef(null);
   const [itemWidth, setItemWidth] = useState(0);
   const [x, setX] = useState(0);
 
-  // measure container to compute item width for exactly 4 visible
   useEffect(() => {
     const measure = () => {
       if (!containerRef.current) return;
@@ -31,7 +52,6 @@ export default function ThumbnailStrip({
   const containerWidth = itemWidth * VISIBLE + GAP * (VISIBLE - 1);
   const maxDrag = Math.min(0, containerWidth - trackWidth);
 
-  // keep current thumbnail within the visible 4-window whenever it changes
   useEffect(() => {
     if (!itemWidth) return;
     const itemLeft = currentIndex * (itemWidth + GAP);
@@ -72,7 +92,7 @@ export default function ThumbnailStrip({
             style={{ width: itemWidth }}
           >
             <div
-              className="w-full aspect-square rounded-2xl overflow-hidden border-2 pointer-events-none"
+              className="relative w-full aspect-square rounded-2xl overflow-hidden border-2 pointer-events-none"
               style={{
                 borderColor: i === currentIndex ? accentColor : "transparent",
               }}
@@ -83,6 +103,9 @@ export default function ThumbnailStrip({
                 className="w-full h-full object-cover"
                 draggable={false}
               />
+              {i === currentIndex && isPlaying && (
+                <EqualizerBars color="#ffffff" />
+              )}
             </div>
             <span className="text-[11px] text-gray-500 truncate w-full text-center pointer-events-none">
               {song.title}
