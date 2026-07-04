@@ -42,15 +42,15 @@ input[type="color"] {
   border: none;
   outline: none;
   padding: 0;
-  width: 20%;  /* Set your preferred dimensions */
-  height: 40px; 
+  width: 20%; /* Set your preferred dimensions */
+  height: 40px;
   border-radius: 8px; /* Optional: adds rounded corners */
   cursor: pointer;
 }
 
 input[type="color"]:focus,
 input[type="color"]:focus-visible {
-outline: 2px solid #7c5cfc; /* Clean blue ring only for keyboard users */
+  outline: 2px solid #7c5cfc; /* Clean blue ring only for keyboard users */
   outline-offset: 2px;
 }
 
@@ -65,4 +65,11 @@ input[type="color"]::-webkit-color-swatch {
 
 input[type="color"]::-moz-color-swatch {
   border: none; /* Fixes Firefox */
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }

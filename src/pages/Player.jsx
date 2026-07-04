@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { collection, onSnapshot, query, orderBy } from "firebase/firestore";
 import { motion, AnimatePresence } from "framer-motion";
-import { FiHeart } from "react-icons/fi";
+import { FiEdit2, FiHeart } from "react-icons/fi";
 import { db } from "../firebase.js";
 import Controls from "../components/Controls.jsx";
 import ProgressBar from "../components/ProgressBar.jsx";
@@ -20,6 +20,7 @@ export default function Player() {
   const [duration, setDuration] = useState(0);
   const [liked, setLiked] = useState({});
   const [direction, setDirection] = useState(0);
+  const [isLooping, setIsLooping] = useState(false);
   const audioRef = useRef(null);
 
   useEffect(() => {
@@ -107,6 +108,7 @@ export default function Player() {
       <audio
         ref={audioRef}
         src={song?.audioUrl}
+        loop={isLooping}
         onTimeUpdate={(e) => setCurrentTime(e.target.currentTime)}
         onLoadedMetadata={(e) => setDuration(e.target.duration)}
         onEnded={handleNext}
@@ -184,8 +186,19 @@ export default function Player() {
           onSeekBack={() => seekBy(-10)}
           onSeekForward={() => seekBy(10)}
           accentColor={ACCENT}
+          isLooping={isLooping}
+          onToggleLoop={() => setIsLooping((l) => !l)}
         />
       </div>
+
+      <a
+        href="/admin"
+        aria-label="Admin panel"
+        className="fixed bottom-6 right-6 w-12 h-12 rounded-full flex items-center justify-center shadow-lg z-20 transition hover:scale-105"
+        style={{ backgroundColor: "#EDE6FF", color: "#7C5CFC" }}
+      >
+        <FiEdit2 size={18} />
+      </a>
     </div>
   );
 }
