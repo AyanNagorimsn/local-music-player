@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { FaPlay, FaPause, FaStepBackward, FaStepForward } from "react-icons/fa";
 import {
   RiForward10Fill,
@@ -5,6 +6,8 @@ import {
   RiRepeatFill,
   RiRepeatOneFill,
 } from "react-icons/ri";
+import { HiSpeakerWave, HiSpeakerXMark } from "react-icons/hi2";
+import VolumeSlider from "./VolumeSlider.jsx";
 
 export default function Controls({
   isPlaying,
@@ -16,7 +19,11 @@ export default function Controls({
   accentColor,
   isLooping,
   onToggleLoop,
+  volume,
+  onVolumeChange,
 }) {
+  const [showVolume, setShowVolume] = useState(false);
+
   return (
     <div
       className="flex items-center justify-between"
@@ -30,6 +37,7 @@ export default function Controls({
       >
         {isLooping ? <RiRepeatOneFill size={18} /> : <RiRepeatFill size={18} />}
       </button>
+
       <div className="flex items-center gap-5">
         <button
           onClick={onSeekBack}
@@ -72,8 +80,27 @@ export default function Controls({
           <RiForward10Fill size={20} />
         </button>
       </div>
-      <div className="w-[18px]" />{" "}
-      {/* spacer to balance the loop icon on the left */}
+
+      <div className="relative">
+        <button
+          onClick={() => setShowVolume((v) => !v)}
+          aria-label="Volume"
+          className="opacity-70 hover:opacity-100 transition"
+        >
+          {volume === 0 ? (
+            <HiSpeakerXMark size={18} />
+          ) : (
+            <HiSpeakerWave size={18} />
+          )}
+        </button>
+        <VolumeSlider
+          visible={showVolume}
+          volume={volume}
+          onChange={onVolumeChange}
+          accentColor={accentColor}
+          onClose={() => setShowVolume(false)}
+        />
+      </div>
     </div>
   );
 }

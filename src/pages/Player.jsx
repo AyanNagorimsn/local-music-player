@@ -21,7 +21,13 @@ export default function Player() {
   const [liked, setLiked] = useState({});
   const [direction, setDirection] = useState(0);
   const [isLooping, setIsLooping] = useState(false);
+  const [volume, setVolume] = useState(60);
+
   const audioRef = useRef(null);
+
+  useEffect(() => {
+    if (audioRef.current) audioRef.current.volume = volume / 100;
+  }, [volume]);
 
   useEffect(() => {
     const q = query(collection(db, "songs"), orderBy("order", "asc"));
@@ -189,6 +195,8 @@ export default function Player() {
           accentColor={ACCENT}
           isLooping={isLooping}
           onToggleLoop={() => setIsLooping((l) => !l)}
+          volume={volume}
+          onVolumeChange={setVolume}
         />
       </div>
 
