@@ -59,6 +59,7 @@ export default function Admin() {
   const [uploading, setUploading] = useState(false);
   const coverInputRef = useRef(null);
   const audioInputRef = useRef(null);
+  const formRef = useRef(null);
 
   useEffect(() => {
     const q = query(collection(db, "songs"), orderBy("order", "asc"));
@@ -150,6 +151,7 @@ export default function Admin() {
     });
     setCoverPreview(song.coverUrl);
     setEditingId(song.id);
+    formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
   const handleDelete = async (id) => {
@@ -189,6 +191,7 @@ export default function Admin() {
 
         {/* Form */}
         <form
+          ref={formRef}
           onSubmit={handleSubmit}
           className="bg-white rounded-2xl shadow p-6 mb-8 space-y-5"
         >
@@ -340,40 +343,37 @@ export default function Admin() {
               key={song.id}
               value={song}
               onDragEnd={commitOrder}
-              className="flex items-center gap-3 p-4 border-b border-gray-50 last:border-b-0 bg-white cursor-grab active:cursor-grabbing"
+              className="flex items-center gap-2 sm:gap-3 p-2.5 sm:p-4 border-b border-gray-50 last:border-b-0 bg-white cursor-grab active:cursor-grabbing"
             >
-              <FiMenu className="text-gray-300 shrink-0" size={18} />
+              <FiMenu className="text-gray-300 shrink-0" size={15} />
               <img
                 src={song.coverUrl}
                 alt={song.title}
-                className="w-20 h-20 rounded-2xl object-cover shrink-0"
+                className="w-12 h-12 sm:w-20 sm:h-20 rounded-lg sm:rounded-2xl object-cover shrink-0"
               />
               <div className="flex-1 min-w-0">
-                <p className="font-medium text-gray-900 truncate">
+                <p className="text-sm sm:text-base font-medium text-gray-900 truncate">
                   {song.title}
                 </p>
                 <p className="text-xs text-gray-500 truncate">{song.artist}</p>
-                <p className="text-xs text-gray-400 mt-0.5">
-                  {formatDuration(song.duration)}
-                </p>
               </div>
               <div
-                className="w-8 h-8 rounded-full border border-gray-200 shrink-0"
+                className="hidden sm:block w-8 h-8 rounded-full border border-gray-200 shrink-0"
                 style={{ backgroundColor: song.bgColor }}
               />
               <button
                 onClick={() => handleEdit(song)}
-                className="flex items-center gap-1 text-sm font-medium text-green-600 bg-green-50 px-3 py-1.5 rounded-lg shrink-0 hover:bg-green-100 transition"
+                aria-label="Edit song"
+                className="flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 text-green-600 bg-green-50 rounded-lg shrink-0 hover:bg-green-100 transition"
               >
                 <FiEdit2 size={13} />
-                Edit
               </button>
               <button
                 onClick={() => handleDelete(song.id)}
-                className="flex items-center gap-1 text-sm font-medium text-red-500 bg-red-50 px-3 py-1.5 rounded-lg shrink-0 hover:bg-red-100 transition"
+                aria-label="Delete song"
+                className="flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 text-red-500 bg-red-50 rounded-lg shrink-0 hover:bg-red-100 transition"
               >
                 <FiTrash2 size={13} />
-                Delete
               </button>
             </Reorder.Item>
           ))}
