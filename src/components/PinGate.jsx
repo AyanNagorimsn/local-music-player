@@ -3,7 +3,7 @@ import { FiDelete } from "react-icons/fi";
 import { BiFingerprint } from "react-icons/bi";
 import { RiLockPasswordFill } from "react-icons/ri";
 
-const PIN = "0909"; // change this to whatever PIN you want
+const PIN = "2707";
 
 export default function PinGate({ onUnlock }) {
   const [entered, setEntered] = useState("");
